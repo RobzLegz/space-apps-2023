@@ -60,7 +60,7 @@ const HomeContainer = () => {
 
   return (
     <div className="w-full flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700">
-      <h1 className="text-accent text-lg mb-4">NASA Terminal</h1>
+      <h1 className="text-accent text-lg mb-3">NASA Terminal</h1>
 
       <textarea
         name="terminal"
