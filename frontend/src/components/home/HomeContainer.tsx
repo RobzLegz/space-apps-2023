@@ -70,13 +70,34 @@ const HomeContainer = () => {
       />
 
       <div className="p-2 w-full mt-4 border-2 border-dashed border-primary-700 rounded-md flex flex-col">
-        <input type="file" name="file" id="file" hidden />
+        <input
+          type="file"
+          name="file"
+          id="file"
+          hidden
+          multiple
+          onChange={handleFileSelect}
+        />
         <label
           htmlFor="file"
           className="text-accent cursor-pointer flex items-center justify-start gap-2"
         >
           Upload file <ArrowUpTrayIcon className="text-accent h-5" />
         </label>
+
+        {files.length > 0 && (
+          <div className="flex text-gray-400 gap-3 mt-2">
+            {files.map((file, i) => (
+              <p
+                key={i}
+                className="hover:line-through cursor-pointer"
+                onClick={() => setFiles(files.filter((f, j) => j !== i))}
+              >
+                {file.name}
+              </p>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
