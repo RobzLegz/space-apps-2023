@@ -36,7 +36,9 @@ const PageModule: React.FC<{
         <meta property="twitter:image:alt" content={ogImageAlt} />
       </Head>
 
-      {children}
+      <div className="w-full flex items-start justify-center max-w-[1200px]">
+        {children}
+      </div>
     </main>
   );
 };
