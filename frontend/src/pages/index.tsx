@@ -1,4 +1,4 @@
-import PageModule from "../../src/modules/PageModule";
+import PageModule from "../modules/PageModule";
 
 export default function Home() {
   return <PageModule></PageModule>;
