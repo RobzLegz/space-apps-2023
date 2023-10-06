@@ -3,13 +3,13 @@ import React from "react";
 
 const HomeContainer = () => {
   return (
-    <div className="w-full min-h-[80vh] flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700">
+    <div className="w-full flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700">
       <h1 className="text-accent text-lg mb-4">NASA Terminal</h1>
 
       <textarea
         name="terminal"
         id="terminal"
-        className="w-full h-full"
+        className="w-full h-full min-h-[70vh]"
         placeholder="Ask me anything..."
       />
 
