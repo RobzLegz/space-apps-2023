@@ -352,3 +352,14 @@ console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Err
 
 ###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
 
+1696634325068	geckodriver	INFO	Listening on 127.0.0.1:54051
+1696634328133	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "54052" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\robzl\\AppData\\Local\\Temp\\rust_mozprofilepuPIB5"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1696634329596	Marionette	INFO	Listening on port 54059
+1696634329653	Marionette	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: Unrecognized feature VIDEO_OVERLAY
+1696635805987	Marionette	INFO	Stopped listening on port 54059
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
