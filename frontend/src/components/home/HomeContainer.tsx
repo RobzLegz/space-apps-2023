@@ -65,7 +65,7 @@ const HomeContainer = () => {
       <textarea
         name="terminal"
         id="terminal"
-        className="w-full h-full min-h-[70vh]"
+        className="w-full h-full min-h-[370px]"
         placeholder="Ask me anything..."
       />
 
