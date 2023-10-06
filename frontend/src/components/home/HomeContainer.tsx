@@ -1,3 +1,4 @@
+import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import React from "react";
 
 const HomeContainer = () => {
@@ -14,8 +15,11 @@ const HomeContainer = () => {
 
       <div className="p-2 w-full mt-4 border-2 border-dashed border-primary-700 rounded-md">
         <input type="file" name="file" id="file" hidden />
-        <label htmlFor="file" className="text-accent cursor-pointer">
-          Upload file
+        <label
+          htmlFor="file"
+          className="text-accent cursor-pointer flex items-center justify-start gap-2"
+        >
+          Upload file <ArrowUpTrayIcon className="text-accent h-5" />
         </label>
       </div>
     </div>
