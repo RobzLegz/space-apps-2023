@@ -8,9 +8,6 @@ const HomeContainer = () => {
   const selectFile = (incFiles: FileList) => {
     let accFiles: File[] = [];
 
-    let al = false;
-    let imForm = false;
-
     for (const file of incFiles) {
       accFiles = [...accFiles, file];
     }
@@ -20,14 +17,6 @@ const HomeContainer = () => {
       } else {
         setFiles([...accFiles]);
       }
-    }
-
-    if (al) {
-      alert("Faila izmērs nedrīkst pārsniegt 5 mb");
-    }
-
-    if (imForm) {
-      alert("Bildei jābūt jpeg, jpg vai png formātā");
     }
   };
 
@@ -59,7 +48,32 @@ const HomeContainer = () => {
   };
 
   return (
-    <div className="w-full flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700">
+    <div
+      className="w-full flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700"
+    //   onDrag={handleDrag}
+    //   onDragEnter={handleDrag}
+    //   onDragOver={handleDrag}
+    //   onDrop={handleDrop}
+    //   onDragLeave={handleDrag}
+    >
+      {dragActive && (
+        <div className="w-full h-full absolute top-0 left-0 z-10 bg-black/50 flex items-center justify-center">
+          <div className="grid grid-cols-3">
+            <div className="p-10 border-t-8 border-l-8 border-accent rounded-lg" />
+            <div className="p-10" />
+            <div className="p-10 border-t-8 border-r-8 border-accent rounded-lg" />
+            <div className="p-10" />
+            <div className="flex items-center justify-center text-accent">
+              <p>Drop Your files here</p>
+            </div>
+            <div className="p-10" />
+            <div className="p-10 border-b-8 border-l-8 border-accent rounded-lg" />
+            <div className="p-10" />
+            <div className="p-10 border-b-8 border-r-8 border-accent rounded-lg" />
+          </div>
+        </div>
+      )}
+
       <h1 className="text-accent text-lg mb-3">NASA Terminal</h1>
 
       <textarea
