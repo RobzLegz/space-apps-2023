@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as fs from "fs";
-import * as pdf from "pdf-parse";
+import pdf from "pdf-parse";
 import multer from "multer";
 import path from "path";
 
@@ -19,7 +19,7 @@ export const engineCtrl = {
 
       const upload = multer({storage}).single('file');
       
-      upload(_req, res, (err: any) => {
+      upload(_req, res, async (err: any) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ err: "Radās kļūme" })
@@ -29,8 +29,21 @@ export const engineCtrl = {
             return res.status(400).json({ err: "No file uploaded." })
         }
 
+        const pdfFilePath = _req.file.path;
+        const pdfData = fs.readFileSync(_req.file.path);
+        const pdfText = await pdf(pdfData);
+
+        fs.unlink(pdfFilePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error deleting file:", unlinkErr);
+            } else {
+              console.log("File deleted successfully.");
+            }
+        });
+
         return res.json({
             msg: "File uploaded successfully",
+            pdfText: pdfText.text,
         });
       });
     } catch (err: any) {
