@@ -24,3 +24,12 @@ model LL {
   updated_at       DateTime @updatedAt
   created_at       DateTime @default(now())
 }
+
+model STD {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String?
+  txt        String?
+  embeddings Float[]
+  updated_at DateTime @updatedAt
+  created_at DateTime @default(now())
+}
