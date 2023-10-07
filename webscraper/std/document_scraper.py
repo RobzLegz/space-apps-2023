@@ -34,25 +34,13 @@ for url in urls:
 
         # Extract text from each element and append it to the list
         pdf_text = [t.text for t in text_elements]
-        all_pdf_text.extend(pdf_text)
-
-        # Save the text from each PDF in a separate JSON file
-        pdf_text_combined = " ".join(pdf_text)
-        pdf_text_data = {"pdf_text_combined": pdf_text_combined}
-        pdf_filename = url.split("/")[-1].replace(".pdf", "_text.json")
-        with open(pdf_filename, "w") as pdf_json_file:
-            json.dump(pdf_text_data, pdf_json_file)
-            print(f"PDF text data saved to {pdf_filename}")
+        all_pdf_text.append({"pdf_text": " ".join(pdf_text)})
 
     except Exception as e:
         print(f"Error processing {url}: {str(e)}")
 
-# Combine all the text from all the PDFs into one string
-all_pdf_text_combined = " ".join(all_pdf_text)
+# Save all PDF text data in one JSON file
+with open("all_pdf_text.json", "w") as json_file:
+    json.dump(all_pdf_text, json_file, indent=4)
 
-# Save the combined text as a single JSON file
-combined_text_data = {"all_pdf_text_combined": all_pdf_text_combined}
-with open("combined_pdf_text.json", "w") as combined_json_file:
-    json.dump(combined_text_data, combined_json_file)
-
-print("PDF text data saved to separate and combined JSON files.")
+print("PDF text data saved to all_pdf_text.json.")
