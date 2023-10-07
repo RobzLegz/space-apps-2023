@@ -9,20 +9,29 @@ export const engineCtrl = {
     try {
     //   let buffer = fs.readFileSync()
       const storage = multer.diskStorage({
-            destination: (req, file, cb) => {
-                cb(null, "./uploads/");
-            },
-            filename: (req, file, cb) => {
-                cb(null, `${Date.now()}-${file.originalname}`);
-            },
+        destination: (req, file, cb) => {
+            cb(null, "./");
+        },
+        filename: (req, file, cb) => {
+            cb(null, `${Date.now()}-${file.originalname}`);
+        },
       });
 
-      const upload = multer({storage});
+      const upload = multer({storage}).single('file');
       
+      upload(_req, res, (err: any) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ err: "Radās kļūme" })
+        }
 
+        if (!_req.file) {
+            return res.status(400).json({ err: "No file uploaded." })
+        }
 
-      res.json({
-        msg: "Data saved",
+        return res.json({
+            msg: "File uploaded successfully",
+        });
       });
     } catch (err: any) {
       console.error(err.message);
