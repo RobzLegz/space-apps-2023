@@ -5,12 +5,19 @@ import data from "../../data/data.json";
 export const scriptCtrl = {
   writeLL: async (_req: Request, res: Response) => {
     try {
-      console.log(data);
+      prisma.lL.deleteMany();
+      let writtenUrls: string[] = [];
 
       const d: any = data;
 
       for (const ll of d) {
+        if (writtenUrls.includes(ll.url)) {
+          continue;
+        }
+
         const newLL = await prisma.lL.create({ data: ll });
+
+        writtenUrls = [...writtenUrls, ll.url];
 
         console.log(newLL);
         console.log("");
