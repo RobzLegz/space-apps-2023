@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import * as fs from "fs";
 import pdf from "pdf-parse";
 import multer from "multer";
-import path from "path";
 
 export const engineCtrl = {
   uploadPDF: async (_req: Request, res: Response) => {
