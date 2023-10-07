@@ -1,11 +1,9 @@
 import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
-import * as dotenv from "dotenv";
+import 'dotenv/config'
 import { scriptRouter } from "./src/logic/scripts/router";
 import { engineRouter } from "./src/logic/engine/router";
-
-dotenv.config();
 
 const app = express();
 app.use(express.json());
