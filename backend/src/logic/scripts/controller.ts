@@ -8,8 +8,8 @@ import { encodeGenerator, encode } from "gpt-tokenizer";
 import { LL } from "@prisma/client";
 import { Pinecone } from "@pinecone-database/pinecone";
 
-const key = process.env.OPENAI_API_KEY
-console.log(key)
+const key = process.env.OPENAI_API_KEY;
+console.log(key);
 const openai = new OpenAI({
   apiKey: key,
 });
@@ -106,7 +106,9 @@ export const scriptCtrl = {
   },
   generateLLEmbeddings: async (_req: Request, res: Response) => {
     try {
-      const query = (await prisma.lL.findMany()).filter((item) => !item.embeddings.length);
+      const query = (await prisma.lL.findMany()).filter(
+        (item) => !item.embeddings.length
+      );
 
       console.log(query.length);
       // console.log(query[10].embeddings)
@@ -164,9 +166,13 @@ export const scriptCtrl = {
     try {
       const { embedding } = req.body;
 
-      const index = await pinecone.Index("exacto")
+      const index = await pinecone.Index("exacto");
 
-      const query = await index.query({vector: embedding, topK: 100, includeMetadata: true})
+      const query = await index.query({
+        vector: embedding,
+        topK: 100,
+        includeMetadata: true,
+      });
       if (!query.matches) {
         return res.status(500).json({ err: "erorrr" });
       }
@@ -184,44 +190,85 @@ export const scriptCtrl = {
   },
   transferDb: async (_req: Request, res: Response) => {
     try {
-    const mongodb = (await prisma.lL.findMany()).filter((item) => item.embeddings.length );
+      const mongodb = (await prisma.lL.findMany()).filter(
+        (item) => item.embeddings.length
+      );
 
-    
-    console.log(mongodb.length)
+      console.log(mongodb.length);
 
-    const index = pinecone.Index("exacto");
+      const index = pinecone.Index("exacto");
 
-    const BATCH_SIZE = 300
+      const BATCH_SIZE = 300;
 
-    const upsertInBatches = async (data: any) => {
-      for (let i = 0; i < data.length; i += BATCH_SIZE) {
-        const batch = data.slice(i, i + BATCH_SIZE);
-        await index.upsert(batch);
-        console.log(`Batch ${i / BATCH_SIZE + 1} upserted`);
-      }
-    };
-
-
-    const newformat = mongodb.map((x) => {
-      return {
-        id: x.id,
-        values: x.embeddings,
-        metadata: {
-          text:
-            x.subject ??
-            "" + x.driving_event + x.lessons_learned + x.recomendations,
-        },
+      const upsertInBatches = async (data: any) => {
+        for (let i = 0; i < data.length; i += BATCH_SIZE) {
+          const batch = data.slice(i, i + BATCH_SIZE);
+          await index.upsert(batch);
+          console.log(`Batch ${i / BATCH_SIZE + 1} upserted`);
+        }
       };
-    });
 
+      const newformat = mongodb.map((x) => {
+        return {
+          id: x.id,
+          values: x.embeddings,
+          metadata: {
+            text:
+              x.subject ??
+              "" + x.driving_event + x.lessons_learned + x.recomendations,
+          },
+        };
+      });
 
-    await upsertInBatches(newformat);
+      await upsertInBatches(newformat);
 
-    res.json({msg: "success"})
-  } catch (err: any) {
-    console.error(err.message);
+      res.json({ msg: "success" });
+    } catch (err: any) {
+      console.error(err.message);
 
-    return res.status(500).json({ err: "Radās kļūme" });
-  }
+      return res.status(500).json({ err: "Radās kļūme" });
+    }
+  },
+  addSource: async (_req: Request, res: Response) => {
+    try {
+      const mongodb = (await prisma.lL.findMany()).filter(
+        (item) => item.embeddings.length
+      );
+
+      console.log(mongodb.length);
+
+      const index = pinecone.Index("exacto");
+
+      const BATCH_SIZE = 100;
+
+      const upsertInBatches = async (data: any) => {
+        for (let i = 0; i < data.length; i += BATCH_SIZE) {
+          const batch = data.slice(i, i + BATCH_SIZE);
+          await index.upsert(batch);
+          console.log(`Batch ${i / BATCH_SIZE + 1} upserted`);
+        }
+      };
+
+      const newformat = mongodb.map((x) => {
+        return {
+          id: x.id,
+          values: x.embeddings,
+          metadata: {
+            text:
+              x.subject ??
+              "" + x.driving_event + x.lessons_learned + x.recomendations,
+            source: `Lessons learned ID ${x.id}, title: ${x.subject}`,
+          },
+        };
+      });
+
+      await upsertInBatches(newformat);
+
+      res.json({ msg: "success" });
+    } catch (err: any) {
+      console.error(err.message);
+
+      return res.status(500).json({ err: "Radās kļūme" });
+    }
   },
 };
