@@ -6,21 +6,17 @@ import Response from "./Response";
 const HomeContainer = () => {
   const [dragActive, setDragActive] = useState(false);
   const [response, setResponse] = useState<any>(null);
-  const [files, setFiles] = useState<File[]>([]);
+  const [file, setFile] = useState<File | null>(null);
 
   const selectFile = (incFiles: FileList) => {
     let accFiles: File[] = [];
 
     for (const file of incFiles) {
-      accFiles = [...accFiles, file];
-    }
-    if (setFiles) {
-      if (files) {
-        setFiles([...files, ...accFiles]);
-      } else {
-        setFiles([...accFiles]);
+      if (file.type === "application/pdf") {
+        accFiles = [...accFiles, file];
       }
     }
+    setFile(accFiles[0]);
   };
 
   const handleDrag = function (e: React.DragEvent) {
@@ -50,7 +46,7 @@ const HomeContainer = () => {
     }
   };
 
-  if (!response) {
+  if (response) {
     return <Response />;
   }
 
@@ -61,7 +57,7 @@ const HomeContainer = () => {
         name="file"
         id="file"
         hidden
-        multiple
+        accept="application/pdf"
         onChange={handleFileSelect}
       />
 
@@ -80,26 +76,23 @@ const HomeContainer = () => {
       >
         <ArrowUpTrayIcon className="h-10 mb-6" />
 
-        <strong>Drag and drop your documents</strong>
+        <strong>Drag and drop your .pdf document</strong>
 
         <small className="text-gray-400 mt-2">Or click to upload</small>
       </label>
 
-      {files.length > 0 && (
-        <div className="flex flex-col items-start justify-start mt-4 overflow-x-auto w-full whitespace-nowrap pb-2">
+      {file && (
+        <div className="flex flex-col items-start justify-start mt-4 overflow-x-auto w-full whitespace-nowrap">
           <p className="text-gray-400">Documents to validate:</p>
 
           <div className="flex w-full items-center justify-start gap-3 mt-1">
             <div className="flex text-accent gap-3 ">
-              {files.map((file, i) => (
-                <p
-                  key={i}
-                  className="hover:line-through cursor-pointer"
-                  onClick={() => setFiles(files.filter((f, j) => j !== i))}
-                >
-                  {file.name}
-                </p>
-              ))}
+              <p
+                className="hover:line-through cursor-pointer"
+                onClick={() => setFile(null)}
+              >
+                {file.name}
+              </p>
             </div>
           </div>
         </div>
@@ -108,7 +101,7 @@ const HomeContainer = () => {
       <textarea
         name="terminal"
         id="terminal"
-        className="w-full h-full mt-2 bg-primary-900 p-4 min-h-[90px] rounded-lg border border-primary-700"
+        className="w-full h-full mt-4 bg-primary-900 p-4 min-h-[90px] rounded-lg border border-primary-700"
         placeholder="Add context if needed..."
         rows={2}
       />
