@@ -51,7 +51,7 @@ describes the interaction between elements of the architecture.`,
   return (
     <TerminalContainer>
       <div className="flex flex-col text-gray-400">
-        <strong className="mb-4">Recomendations for {fileName}</strong>
+        <strong className="mb-2">Recomendations for {fileName}</strong>
 
         <div className="flex flex-col gap-4 w-full">
           {issues.map((issue, i) => {
