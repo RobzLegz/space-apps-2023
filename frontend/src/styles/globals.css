@@ -9,7 +9,7 @@
 
   input,
   textarea {
-    @apply bg-primary-800 border-none outline-none text-gray-400;
+    @apply bg-primary-800 outline-none text-gray-400;
   }
 }
 
