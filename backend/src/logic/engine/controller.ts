@@ -65,28 +65,30 @@ const processParagraphs = async (
     //   problem: "",
     // };
 
-    function transformStringToObject(inputString: string, paragraph: string): Issue {
+    function transformStringToObject(
+      inputString: string,
+      paragraph: string
+    ): Issue {
       const jsonObject: Issue = {
         issue: paragraph,
-        fix: '',
-        source: '',
-        priority: '',
-        problem: '',
+        fix: "",
+        source: "",
+        priority: "",
+        problem: "",
       };
-    
+
       const regex = /(\w+)_P_([\s\S]*?)(?=(\w+)_P_|$)/g;
       let match;
-    
+
       while ((match = regex.exec(inputString)) !== null) {
         const [, key, value] = match;
         if (key in jsonObject) {
           jsonObject[key as keyof Issue] = value.trim();
         }
       }
-    
+
       return jsonObject;
     }
-    
 
     const issue = transformStringToObject(recommendations, paragraph);
 
@@ -142,12 +144,50 @@ export const engineCtrl = {
           .split(/\r?\n\r?\n/)
           .filter((p) => p.replaceAll(" ", "").length);
 
-        const { pdfFileName, issues } = await processParagraphs(
-          paragraphs,
-          fileName
-        );
+        interface Issue {
+          issue: string;
+          fix: string;
+          source: string;
+          priority: string;
+          problem: string;
+        }
 
-        console.log(issues);
+        var issues: Issue[] = [];
+
+        paragraphs.forEach(async (paragraph, i) => {
+          if (i > 10) {
+            return;
+          }
+          const embed = await generateEmbedding(paragraph);
+          const query = await searchVector(embed);
+          var context = "";
+          query.forEach((entry) => {
+            context =
+              context +
+              (entry.metadata ? entry.metadata.text : "") +
+              "Source: " +
+              (entry.metadata ? entry.metadata.source : "");
+          });
+
+          const recommendations: string = await compareAndRecommend(
+            GPT_MODEL,
+            paragraph,
+            context
+          );
+
+          const sections = recommendations.split("_P_");
+
+          // Create a JSON object from the split sections
+          const jsonObject: Issue = {
+            issue: sections[0].trim(),
+            fix: sections[1].trim(),
+            source: sections[2].trim(),
+            priority: sections[3].trim(),
+            problem: sections[4].trim(),
+          };
+
+          issues = [...issues, jsonObject];
+        });
 
         return res.json({
           fileName: fileName,
