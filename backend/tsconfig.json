@@ -6,7 +6,8 @@
     "lib": ["es2021", "dom"],
     "esModuleInterop": true,
     "typeRoots": ["./node_modules/@types", "./src/types"],
-    "resolveJsonModule": true
-    // "target": "ES2022"
+    "resolveJsonModule": true,
+    "target": "ES6",
+    "moduleResolution": "node"
   }
 }
