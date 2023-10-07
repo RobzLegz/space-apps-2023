@@ -58,7 +58,6 @@ for yurl in year_urls:
             break
     page = 1
 
-
 driver.quit()
 
 with open("urls.json", "w") as json_file:
