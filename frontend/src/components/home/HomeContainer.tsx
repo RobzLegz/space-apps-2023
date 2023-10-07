@@ -1,8 +1,11 @@
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
+import TerminalContainer from "../TerminalContainer";
+import Response from "./Response";
 
 const HomeContainer = () => {
   const [dragActive, setDragActive] = useState(false);
+  const [response, setResponse] = useState<any>(null);
   const [files, setFiles] = useState<File[]>([]);
 
   const selectFile = (incFiles: FileList) => {
@@ -47,12 +50,12 @@ const HomeContainer = () => {
     }
   };
 
-  return (
-    <div className="w-full max-w-[900px] flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700">
-      <h1 className="text-accent text-lg mb-3 font-semibold">
-        S.T.A.R. Terminal
-      </h1>
+  if (!response) {
+    return <Response />;
+  }
 
+  return (
+    <TerminalContainer>
       <input
         type="file"
         name="file"
@@ -115,7 +118,7 @@ const HomeContainer = () => {
           Submit
         </button>
       </div>
-    </div>
+    </TerminalContainer>
   );
 };
 
