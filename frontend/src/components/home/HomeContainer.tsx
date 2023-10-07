@@ -3,11 +3,22 @@ import React, { useState } from "react";
 import TerminalContainer from "../TerminalContainer";
 import Response from "./Response";
 import PBContainer from "../progressBar/PBContainer";
+import { uploadDocument } from "@/requests/uploadDocument";
 
 const HomeContainer = () => {
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState<any>(null);
+  const [response, setResponse] = useState<{
+    text?: string;
+    fileName?: string;
+    issues?: {
+      issue: string;
+      fix: string;
+      source: string;
+      priority: string;
+      problem: string;
+    }[];
+  } | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
   const selectFile = (incFiles: FileList) => {
@@ -49,12 +60,21 @@ const HomeContainer = () => {
   };
 
   const handleSubmit = async () => {
+    if (!file) {
+      return;
+    }
+
     setLoading(true);
-    // setLoading(false);
+
+    const data = await uploadDocument({ file });
+
+    setResponse(data);
+
+    setLoading(false);
   };
 
   if (response) {
-    return <Response />;
+    return <Response {...response} />;
   }
 
   if (loading) {
@@ -121,7 +141,7 @@ const HomeContainer = () => {
         <button
           className="bg-accent rounded-md px-12 py-2 text-primary-900 border-accent-100 active:hover:bg-accent-100 duration-200 transition-colors disabled:opacity-70"
           onClick={handleSubmit}
-          disabled={!file}
+          disabled={!file || loading}
         >
           Submit
         </button>
