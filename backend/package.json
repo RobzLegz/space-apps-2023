@@ -16,11 +16,16 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.4.1",
+    "@types/multer": "^1.4.8",
+    "@types/pdf-parse": "^1.1.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "memory-cache": "^0.2.0"
+    "fs": "^0.0.1-security",
+    "memory-cache": "^0.2.0",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.4",
