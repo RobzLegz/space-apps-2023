@@ -4,7 +4,6 @@ import time
 import json
 
 
-urls = []
 with open("./webscraper/urls.json", "r") as json_file:
     urls = json.load(json_file)
 
