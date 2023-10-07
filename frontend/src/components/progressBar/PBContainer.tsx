@@ -5,7 +5,7 @@ import ProgressBar from "./ProgressBar";
 const PBContainer = () => {
   return (
     <TerminalContainer>
-      <div className="w-full flex items-center justify-center h-[400px]">
+      <div className="w-full flex items-center justify-center h-[340px]">
         <ProgressBar />
       </div>
     </TerminalContainer>
