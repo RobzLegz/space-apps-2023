@@ -74,7 +74,7 @@ const HomeContainer = () => {
         </div>
       )}
 
-      <h1 className="text-accent text-lg mb-3">NASA Terminal</h1>
+      <h1 className="text-accent text-lg mb-3">H.A.R.V.I.S A.S.S</h1>
 
       <textarea
         name="terminal"
