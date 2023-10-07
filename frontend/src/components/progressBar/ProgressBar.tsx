@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const ProgressBar = () => {
-  
-
   // PROGRESS BAR //
   const [progress, setProgress] = useState(0);
 
@@ -13,13 +11,14 @@ const ProgressBar = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       if (progress < 100) {
-        setProgress((prevProgress) => prevProgress + Math.floor(Math.random() * 5));
+        setProgress(
+          (prevProgress) => prevProgress + Math.floor(Math.random() * 5)
+        );
       }
     }, 1000);
-  
+
     return () => clearInterval(timer);
   }, [progress]);
-  
 
   // END PROGRESS BAR //
 
@@ -36,7 +35,10 @@ const ProgressBar = () => {
         </div>
         <div className="flex mt-2">
           <div className="bg-primary-900 rounded-full flex-grow h-2">
-            <div className="rounded-full h-1 bg-accent" style={progressBarStyle}></div>
+            <div
+              className="rounded-full h-1 bg-accent"
+              style={progressBarStyle}
+            ></div>
           </div>
         </div>
       </div>
