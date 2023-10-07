@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
 import prisma from "../../lib/prisma";
 import data from "../../data/data.json";
-import stdData from "../../data/std.json";
+import stdData from "../../data/new_std.json";
 
 export const scriptCtrl = {
   writeLL: async (_req: Request, res: Response) => {
     try {
-      prisma.lL.deleteMany();
       let writtenUrls: string[] = [];
 
       const d: any = data;
@@ -35,19 +34,20 @@ export const scriptCtrl = {
   },
   writeSTD: async (_req: Request, res: Response) => {
     try {
-      prisma.sTD.deleteMany();
-
-      const d: any = stdData;
+      const d: { txt: string; title: string }[] = stdData as any;
 
       for (const std of d) {
-        const newLL = await prisma.sTD.create({
-          data: {
-            txt: std.pdf_text,
-          },
-        });
+        for (const txt of std.txt.split(".               ")) {
+          const newSTD = await prisma.sTD.create({
+            data: {
+              title: std.title,
+              txt: txt,
+            },
+          });
 
-        console.log(newLL);
-        console.log("");
+          console.log(newSTD);
+          console.log("");
+        }
       }
 
       res.json({
