@@ -22,7 +22,9 @@ for url in urls:
 
         lesson_data = lesson.find_elements(By.TAG_NAME, "div")
 
-        obj = {}
+        obj = {
+            "url": url
+        }
 
         for d in lesson_data:
             try:
@@ -54,7 +56,7 @@ for url in urls:
                 print(e)
                 pass
 
-            if len(obj) > 1:
+            if len(obj) > 2:
                 print(obj)
                 print("")
                 data.append(obj)

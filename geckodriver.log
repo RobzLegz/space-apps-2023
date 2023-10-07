@@ -363,3 +363,17 @@ JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't fin
 
 ###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
 
+1696636109181	geckodriver	INFO	Listening on 127.0.0.1:55361
+1696636112251	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "55362" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\robzl\\AppData\\Local\\Temp\\rust_mozprofileHoZG6X"
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1696636113923	Marionette	INFO	Listening on port 55368
+1696636114293	Marionette	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: Unrecognized feature VIDEO_OVERLAY
+1696656046786	Marionette	INFO	Stopped listening on port 55368
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
