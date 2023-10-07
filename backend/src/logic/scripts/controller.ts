@@ -257,7 +257,7 @@ export const scriptCtrl = {
             text:
               x.subject ??
               "" + x.driving_event + x.lessons_learned + x.recomendations,
-            source: `Lessons learned ID ${x.id}, title: ${x.subject}`,
+            source: `Lessons learned ID ${x.url}, title: ${x.subject}`,
           },
         };
       });

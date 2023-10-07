@@ -8,15 +8,108 @@ import searchVector from "../../utils/searchVector";
 
 const GPT_MODEL = "ft:gpt-3.5-turbo-0613:personal::878Vr0pe";
 
+interface Issue {
+  issue: string;
+  fix: string;
+  source: string;
+  priority: string;
+  problem: string;
+}
+
+const processParagraphs = async (
+  paragraphs: string[],
+  fileName: string | null
+) => {
+  const issues: Issue[] = [];
+
+  for (let i = 0; i < paragraphs.length; i++) {
+    if (!(i > 18 && i < 21)) {
+      continue;
+    }
+
+    const paragraph = paragraphs[i];
+    const embed = await generateEmbedding(paragraph);
+    const query = await searchVector(embed);
+    let context = "";
+
+    query.forEach((entry) => {
+      context =
+        context +
+        (entry.metadata ? entry.metadata.text : "") +
+        "Source: " +
+        (entry.metadata ? entry.metadata.source : "");
+    });
+
+    if (context.length > 8000) {
+      context = context.substring(0, 8000);
+    }
+
+    const recommendations: string = await compareAndRecommend(
+      GPT_MODEL,
+      paragraph,
+      context
+    );
+
+    console.log(recommendations);
+
+    if (recommendations === "") {
+      continue;
+    }
+
+    // // Initialize an empty object
+    // const issue: Issue = {
+    //   issue: paragraph,
+    //   fix: "",
+    //   source: "",
+    //   priority: "",
+    //   problem: "",
+    // };
+
+    function transformStringToObject(inputString: string, paragraph: string): Issue {
+      const jsonObject: Issue = {
+        issue: paragraph,
+        fix: '',
+        source: '',
+        priority: '',
+        problem: '',
+      };
+    
+      const regex = /(\w+)_P_([\s\S]*?)(?=(\w+)_P_|$)/g;
+      let match;
+    
+      while ((match = regex.exec(inputString)) !== null) {
+        const [, key, value] = match;
+        if (key in jsonObject) {
+          jsonObject[key as keyof Issue] = value.trim();
+        }
+      }
+    
+      return jsonObject;
+    }
+    
+
+    const issue = transformStringToObject(recommendations, paragraph);
+
+    issues.push(issue);
+  }
+
+  return {
+    pdfFileName: fileName,
+    issues,
+  };
+};
+
 export const engineCtrl = {
   uploadPDF: async (_req: Request, res: Response) => {
     try {
       //   let buffer = fs.readFileSync()
+      let fileName: string | null = null;
       const storage = multer.diskStorage({
         destination: (req, file, cb) => {
           cb(null, "./");
         },
         filename: (req, file, cb) => {
+          fileName = file.originalname;
           cb(null, `${Date.now()}-${file.originalname}`);
         },
       });
@@ -49,51 +142,16 @@ export const engineCtrl = {
           .split(/\r?\n\r?\n/)
           .filter((p) => p.replaceAll(" ", "").length);
 
-        interface Issue {
-          fix: string;
-          source: string;
-          priority: string;
-          problem: string;
-        }
+        const { pdfFileName, issues } = await processParagraphs(
+          paragraphs,
+          fileName
+        );
 
-        var issues: Issue[] = [];
-
-        paragraphs.forEach(async (paragraph, i) => {
-          if (i > 10) {
-            return;
-          }
-          const embed = await generateEmbedding(paragraph);
-          const query = await searchVector(embed);
-          var context = "";
-          query.forEach((entry) => {
-            context =
-              context +
-              (entry.metadata ? entry.metadata.text : "") +
-              "Source: " +
-              (entry.metadata ? entry.metadata.source : "");
-          });
-
-          const recommendations: string = await compareAndRecommend(
-            GPT_MODEL,
-            paragraph,
-            context
-          );
-
-          const sections = recommendations.split("_P_");
-
-          // Create a JSON object from the split sections
-          const jsonObject: Issue = {
-            fix: sections[0].trim(),
-            source: sections[1].trim(),
-            priority: sections[2].trim(),
-            problem: sections[3].trim(),
-          };
-
-          issues = [...issues, jsonObject];
-        });
+        console.log(issues);
 
         return res.json({
-          msg: "File uploaded successfully",
+          fileName: fileName,
+          text: pdfText.text,
           issues,
         });
       });
