@@ -12,8 +12,9 @@ const ProgressBar = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      if (progress < 100) {
-        setProgress((prevProgress) => prevProgress + Math.floor(Math.random() * 5));
+      const newProgress = progress + Math.floor(Math.random() * 5);
+      if (newProgress < 100) {
+        setProgress(newProgress);
       }
     }, 1000);
   
