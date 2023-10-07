@@ -49,7 +49,9 @@ const HomeContainer = () => {
 
   return (
     <div className="w-full max-w-[900px] flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700">
-      <h1 className="text-accent text-lg mb-3 font-semibold">D.V. Terminal</h1>
+      <h1 className="text-accent text-lg mb-3 font-semibold">
+        S.T.A.R. Terminal
+      </h1>
 
       <input
         type="file"
@@ -62,7 +64,9 @@ const HomeContainer = () => {
 
       <label
         className={`w-full h-[300px] flex items-center justify-center transition-all duration-200 border-2 rounded-lg text-accent flex-col cursor-pointer ${
-          dragActive ? "border-accent-100 border-solid" : "border-accent border-dashed"
+          dragActive
+            ? "border-accent-100 border-solid"
+            : "border-accent border-dashed"
         }`}
         onDrag={handleDrag}
         onDragEnter={handleDrag}
