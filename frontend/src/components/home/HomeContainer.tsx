@@ -48,57 +48,35 @@ const HomeContainer = () => {
   };
 
   return (
-    <div
-      className="w-full flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700"
-    //   onDrag={handleDrag}
-    //   onDragEnter={handleDrag}
-    //   onDragOver={handleDrag}
-    //   onDrop={handleDrop}
-    //   onDragLeave={handleDrag}
-    >
-      {dragActive && (
-        <div className="w-full h-full absolute top-0 left-0 z-10 bg-black/50 flex items-center justify-center">
-          <div className="grid grid-cols-3">
-            <div className="p-10 border-t-8 border-l-8 border-accent rounded-lg" />
-            <div className="p-10" />
-            <div className="p-10 border-t-8 border-r-8 border-accent rounded-lg" />
-            <div className="p-10" />
-            <div className="flex items-center justify-center text-accent">
-              <p>Drop Your files here</p>
-            </div>
-            <div className="p-10" />
-            <div className="p-10 border-b-8 border-l-8 border-accent rounded-lg" />
-            <div className="p-10" />
-            <div className="p-10 border-b-8 border-r-8 border-accent rounded-lg" />
-          </div>
-        </div>
-      )}
+    <div className="w-full max-w-[1000px] flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700">
+      <h1 className="text-accent text-lg mb-3">D.V. Terminal</h1>
 
-      <h1 className="text-accent text-lg mb-3">H.A.R.V.I.S A.S.S</h1>
-
-      <textarea
-        name="terminal"
-        id="terminal"
-        className="w-full h-full min-h-[370px]"
-        placeholder="Ask me anything..."
+      <input
+        type="file"
+        name="file"
+        id="file"
+        hidden
+        multiple
+        onChange={handleFileSelect}
       />
 
-      <div className="p-2 w-full mt-4 border-2 border-dashed border-primary-700 rounded-md flex flex-col">
-        <input
-          type="file"
-          name="file"
-          id="file"
-          hidden
-          multiple
-          onChange={handleFileSelect}
-        />
-        <label
-          htmlFor="file"
-          className="text-accent cursor-pointer flex items-center justify-start gap-2"
-        >
-          Upload file <ArrowUpTrayIcon className="text-accent h-5" />
-        </label>
+      <label
+        className="w-full h-[370px] flex items-center justify-center border-2 border-dashed border-accent rounded-lg text-accent flex-col cursor-pointer"
+        onDrag={handleDrag}
+        onDragEnter={handleDrag}
+        onDragOver={handleDrag}
+        onDrop={handleDrop}
+        onDragLeave={handleDrag}
+        htmlFor="file"
+      >
+        <ArrowUpTrayIcon className="h-10 mb-6" />
 
+        <strong>Drag and drop your documents</strong>
+
+        <small className="text-gray-400 mt-2">Or click to upload</small>
+      </label>
+
+      <div className="flex w-full items-center justify-start gap-3">
         {files.length > 0 && (
           <div className="flex text-gray-400 gap-3 mt-2">
             {files.map((file, i) => (
@@ -112,6 +90,20 @@ const HomeContainer = () => {
             ))}
           </div>
         )}
+      </div>
+
+      <textarea
+        name="terminal"
+        id="terminal"
+        className="w-full h-full mt-4 bg-primary-900 p-4 min-h-[90px] rounded-lg border border-primary-700"
+        placeholder="Add context if needed..."
+        rows={2}
+      />
+
+      <div className="p-2 w-full mt-4 border-2 border-dashed border-primary-700 rounded-md flex justify-start items-start">
+        <button className="bg-accent rounded-md px-4 py-2 text-primary-900">
+          Submit
+        </button>
       </div>
     </div>
   );
