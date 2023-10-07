@@ -50,6 +50,7 @@ export const engineCtrl = {
           .filter((p) => p.replaceAll(" ", "").length);
 
         interface Issue {
+          issue: string;
           fix: string;
           source: string;
           priority: string;
@@ -83,10 +84,11 @@ export const engineCtrl = {
 
           // Create a JSON object from the split sections
           const jsonObject: Issue = {
-            fix: sections[0].trim(),
-            source: sections[1].trim(),
-            priority: sections[2].trim(),
-            problem: sections[3].trim(),
+            issue: sections[0].trim(),
+            fix: sections[1].trim(),
+            source: sections[2].trim(),
+            priority: sections[3].trim(),
+            problem: sections[4].trim(),
           };
 
           issues = [...issues, jsonObject];
