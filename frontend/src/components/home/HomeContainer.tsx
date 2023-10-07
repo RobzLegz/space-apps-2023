@@ -2,9 +2,11 @@ import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import TerminalContainer from "../TerminalContainer";
 import Response from "./Response";
+import PBContainer from "../progressBar/PBContainer";
 
 const HomeContainer = () => {
   const [dragActive, setDragActive] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<any>(null);
   const [file, setFile] = useState<File | null>(null);
 
@@ -46,8 +48,17 @@ const HomeContainer = () => {
     }
   };
 
+  const handleSubmit = async () => {
+    setLoading(true);
+    // setLoading(false);
+  };
+
   if (response) {
     return <Response />;
+  }
+
+  if (loading) {
+    return <PBContainer />;
   }
 
   return (
@@ -107,7 +118,11 @@ const HomeContainer = () => {
       />
 
       <div className="w-full mt-4 flex">
-        <button className="bg-accent rounded-md px-12 py-2 text-primary-900 border-accent-100 hover:bg-accent-100 duration-200 transition-colors">
+        <button
+          className="bg-accent rounded-md px-12 py-2 text-primary-900 border-accent-100 active:hover:bg-accent-100 duration-200 transition-colors disabled:opacity-70"
+          onClick={handleSubmit}
+          disabled={!file}
+        >
           Submit
         </button>
       </div>
