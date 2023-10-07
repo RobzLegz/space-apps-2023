@@ -2,6 +2,11 @@ import { Request, Response } from "express";
 import * as fs from "fs";
 import pdf from "pdf-parse";
 import multer from "multer";
+import { compareAndRecommend } from "../AI_computing/ai_checkFile";
+import generateEmbedding from "../../utils/generateEmbedding";
+import searchVector from "../../utils/searchVector";
+
+const GPT_MODEL = "ft:gpt-3.5-turbo-0613:personal::878Vr0pe";
 
 export const engineCtrl = {
   uploadPDF: async (_req: Request, res: Response) => {
@@ -44,9 +49,52 @@ export const engineCtrl = {
           .split(/\r?\n\r?\n/)
           .filter((p) => p.replaceAll(" ", "").length);
 
+        interface Issue {
+          fix: string;
+          source: string;
+          priority: string;
+          problem: string;
+        }
+
+        var issues: Issue[] = [];
+
+        paragraphs.forEach(async (paragraph, i) => {
+          if (i > 10) {
+            return;
+          }
+          const embed = await generateEmbedding(paragraph);
+          const query = await searchVector(embed);
+          var context = "";
+          query.forEach((entry) => {
+            context =
+              context +
+              (entry.metadata ? entry.metadata.text : "") +
+              "Source: " +
+              (entry.metadata ? entry.metadata.source : "");
+          });
+
+          const recommendations: string = await compareAndRecommend(
+            GPT_MODEL,
+            paragraph,
+            context
+          );
+
+          const sections = recommendations.split("_P_");
+
+          // Create a JSON object from the split sections
+          const jsonObject: Issue = {
+            fix: sections[0].trim(),
+            source: sections[1].trim(),
+            priority: sections[2].trim(),
+            problem: sections[3].trim(),
+          };
+
+          issues = [...issues, jsonObject];
+        });
+
         return res.json({
           msg: "File uploaded successfully",
-          paragraphs,
+          issues,
         });
       });
     } catch (err: any) {

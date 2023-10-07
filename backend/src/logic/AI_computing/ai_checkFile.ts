@@ -5,7 +5,7 @@ const axios = require('axios');
 
 
 // Function to ask the fine-tuned model for recommendations
-async function compareAndRecommend(model, string1, string2) {
+export async function compareAndRecommend(model: string, string1: string, string2: string) {
   try {
     const messages = [
       { role: 'system', content: 'Compare two strings and provide recommendations for how to improve the first string based on the information given in the second string.' },
@@ -24,7 +24,7 @@ async function compareAndRecommend(model, string1, string2) {
   }
 }
 
-async function combineAndOutput(model, string1, recommendation){
+async function combineAndOutput(model: string, string1: string, recommendation: string) {
   const messages = [
     { role: 'system', content: "You are an AI tool that gets string type input and checks if it has old data or issues based on given context that will be fed into you, your task is to find the issue within the given text and suggest a fix based on the given context sources in this format: *[Section number]\n*[Text with issue]\n[Issue]\n*[Suggested fix]\n*[Source]\n*[Priority]. In the [Section number] field of the output put the section number of the string that has the problem. In the [Text with issue] field of the output, you display the string with the problem that you found in the input string by using the given sources. In the [Suggested fix] field of the output, you display a possible fix to the issue based on the given sources. In the [Source] field of the output, you display the source of the context you used to find the solution to the problem from the given context files. In the [Priority] field of the output, you display the priority of the fix, if the fix is related to changes shown in the context file and are possibly dangerous, show high priority. If there is no danger to human life but the issue is in context files, put out medium priority. If the problem doesn't appear in the context files and isn't a threat to human life but the context of the wording is too broad, output a low priority. Show output only after getting all the required information based on the context." },
     { role: 'user', content: `output information written in the system using ${recommendation} as a recommendation. ${string1} as the string with an issue, fill out the rest yourself.` },
@@ -35,15 +35,20 @@ async function combineAndOutput(model, string1, recommendation){
   return response.choices[0].message.content;
 }
 
+interface message {
+  role: string,
+  content: string
+}
+
 // Function to send a message to the OpenAI Chat Completion API
-async function openaiChatCompletion(model, messages) {
+async function openaiChatCompletion(model: string, messages: message[]) {
   const response = await axios.post('https://api.openai.com/v1/chat/completions', {
     model,
     messages,
     temperature: 0,
   }, {
     headers: {
-      'Authorization': 'Bearer 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', // Replace with your actual API key
+      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`, // Replace with your actual API key
     },
   });
 
