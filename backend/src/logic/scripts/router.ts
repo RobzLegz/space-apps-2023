@@ -5,3 +5,6 @@ export const scriptRouter = express.Router();
 
 scriptRouter.route("/write").post(scriptCtrl.writeLL);
 scriptRouter.route("/write_std").post(scriptCtrl.writeSTD);
+scriptRouter.route("/generateLLEmbeddings").get(scriptCtrl.generateLLEmbeddings);
+scriptRouter.route("/searchVector").get(scriptCtrl.searchVector);
+scriptRouter.route("/transferDb").get(scriptCtrl.transferDb);
