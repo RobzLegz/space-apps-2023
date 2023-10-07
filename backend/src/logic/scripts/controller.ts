@@ -32,6 +32,35 @@ export const scriptCtrl = {
       return res.status(500).json({ err: "Radās kļūme" });
     }
   },
+  deleteDuplicates: async (_req: Request, res: Response) => {
+    try {
+      let lls = await prisma.lL.findMany();
+
+      for (let i = 0; i < lls.length; i++) {
+        const item = lls[i];
+
+        for (let j = 0; j < lls.length; j++) {
+          const jtem = lls[j];
+
+          if (i !== j && item.url === jtem.url) {
+            await prisma.lL.delete({ where: { id: jtem.id } });
+
+            lls = lls.filter((it) => it.id !== jtem.id);
+
+            console.log("deleted", jtem.id, jtem.url);
+          }
+        }
+      }
+      
+      res.json({
+        msg: "Data saved",
+      });
+    } catch (err: any) {
+      console.error(err.message);
+
+      return res.status(500).json({ err: "Radās kļūme" });
+    }
+  },
   writeSTD: async (_req: Request, res: Response) => {
     try {
       const d: { txt: string; title: string }[] = stdData as any;
