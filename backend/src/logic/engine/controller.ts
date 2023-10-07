@@ -44,8 +44,6 @@ export const engineCtrl = {
           .split(/\r?\n\r?\n/)
           .filter((p) => p.replaceAll(" ", "").length);
 
-        console.log(paragraphs);
-
         return res.json({
           msg: "File uploaded successfully",
           paragraphs,
