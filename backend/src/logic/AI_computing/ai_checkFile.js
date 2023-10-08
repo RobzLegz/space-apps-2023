@@ -1,6 +1,75 @@
-const GPT_MODEL = 'ft:gpt-3.5-turbo-0613:personal::873jzHv3'; // Replace with your fine-tuned model ID
-const inputString1 = "Screws must be made out of aluminium."; // Replace with the first string you want to compare
-const inputString2 = "Screws must be made out of titanium"; // Replace with the second string for comparison
+const GPT_MODEL = 'ft:gpt-3.5-turbo-0613:personal::87BBpzgT'; // Replace with your fine-tuned model ID
+const inputString1 = `NASA-HDBK-4007 W/CHANGE 1 
+APPROVED FOR PUBLIC RELEASE—DISTRIBUTION IS UNLIMITED
+
+Page 19 of 147
+Permittivity: The ratio of the flux density produced by an electric field in a given dielectric
+to the flux density produced by that field in a vacuum.
+
+Petticoat Insulator:  An insulator made in the form 
+of superposed inverted cups and used
+for high voltage insulation
+
+Plasma: A gaseous body of ions and electrons of sufficiently low density that considerable
+charge separation is possible. Note: Because of the 
+mobility of charge, a plasma is normally
+neutral and free of electric field in its interior, 
+just like a metallic conductor.
+
+Polyamide: A polymer in which the structural units are linked by amide or thioamide
+groupings.
+
+Polystyrene: A thermoplastic material produced by the polymerization of styrene (vinyl
+benzene).
+Potting: A process similar to encapsulating, except 
+that steps are taken to ensure complete
+penetration of all voids in the object before the resin polymerizes.
+
+Power Factor: The ratio of the average (or active) power to the apparent power (rms
+voltage times rms current) of an ac circuit. Also known as phase factor.
+
+Pulse: A wave that departs from a first nominal state, attains a second nominal state, and
+ultimately returns to the first nominal state.      
+
+Resin: An organic substance of natural or synthetic 
+origin characterized by being
+polymeric in structure and predominantly amorphous. 
+Note: Most resins, though not all, are of
+high molecular weight and consist of a long chain or network molecular structure. Usually, resins       
+are more soluble in their lower molecular weight forms.
+
+Resistance: The property of a conductor that determines the current produced by a given
+difference of potential. Note: The ohm is the SI derived unit of resistance.
+
+Resistivity: The ability of a material to resist passage of electrical current either through its       
+bulk or on a surface. Note: The unit of volume resistivity is the ohm-centimeter.
+
+Semiconductor: A solid substance whose electrical conductivity is intermediate between
+that of insulators and conductors. The conductivity 
+of a semiconductor is often tailored through        
+the addition of impurities and is usually dependent 
+on applied electric or magnetic fields or by        
+temperature effects.
+
+Seta, plural: setae – very small, stiff hair like structures that can form on the surfaces of
+materials. If the surface is electrically charged, a seta results in very high electric field
+concentration, sometimes leading to electrical breakdown.`; // Replace with the first string you want to compare
+const inputString2 = `Thick Dielectric Charging/Internal Electrostatic Discharge (IESD)Source: Lessons learned ID 65210f10899abed56392edb6, title: Thick Dielectric Charging/Internal Electrostatic Discharge (IESD)Permeability, Swelling and Solvent-Stress-Cracking Polymeric and Elastomeric Materials (1977)Source: Lessons learned ID 65210fd8899abed56392ef42, title: Permeability, Swelling and Solvent-Stress-Cracking Polymeric and Elastomeric Materials (1977)Surface Charging/Electrostatic Discharge AnalysisSource: Lessons learned ID 65210f78899abed56392ee75, title: Surface Charging/Electrostatic Discharge AnalysisHigh Voltage Electric CircuitsSource: Lessons learned ID 65210f5d899abed56392ee3c, title: High Voltage Electric CircuitsHigh Voltage Electric CircuitsSource: Lessons learned ID 65210fba899abed56392ef04, title: High Voltage Electric CircuitsPenetrant Testing of Aerospace MaterialsSource: Lessons learned ID 65211016899abed56392efc3, title: Penetrant Testing of Aerospace MaterialsHigh Electrical CurrentSource: Lessons learned ID 65210f5f899abed56392ee40, title: High Electrical CurrentAssessment and Control of Electrical ChargesSource: Lessons learned ID 65210f74899abed56392ee6d, title: Assessment and Control of Electrical ChargesEddy Current Testing of Aerospace MaterialsSource: Lessons learned ID 65211046899abed56392f02a, title: Eddy Current Testing 
+of Aerospace MaterialsSolid Propellant, Electro-Static Discharge IgnitionSource: Lessons learned ID 65210fea899abed56392ef66, title: Solid Propellant, Electro-Static Discharge IgnitionElectrical Shielding of 
+Power, Signal and Control CablesSource: Lessons learned ID 65210fe5899abed56392ef5d, title: Electrical Shielding of Power, Signal and Control CablesIncreasing ESD Susceptibility of Integrated Circuits (2002)Source: Lessons learned ID 65211071899abed56392f086, 
+title: Increasing ESD Susceptibility of Integrated Circuits (2002)Insulation, Solid Rocket Motor Case, Bonding, Effect of ContaminationSource: Lessons learned ID 65211000899abed56392ef94, title: Insulation, Solid Rocket Motor Case, Bonding, Effect of ContaminationLimitations of material procurement specifications in polytetrafluoroethylene (PTFE) resin selectionSource: Lessons learned ID 652110a1899abed56392f0f0, title: Limitations of material procurement specifications in polytetrafluoroethylene (PTFE) resin selectionPart Electrical Stress AnalysisSource: Lessons learned ID 65210e6a899abed56392ec5b, title: Part Electrical Stress AnalysisMagnetic Particle Testing of Aerospace MaterialsSource: Lessons learned ID 65210e73899abed56392ec76, title: Magnetic Particle Testing 
+of Aerospace MaterialsReliance on Part Hermeticity and Residual Gas Analysis on GOES-R Bipolar Junction 
+TransistorsSource: Lessons learned ID 65211244899abed56392f447, title: Reliance on Part Hermeticity and 
+Residual Gas Analysis on GOES-R Bipolar Junction TransistorsDesign Practice to Control Interference from Electrostatic Discharge (ESD)Source: Lessons learned ID 65210eaa899abed56392ecdc, title: Design Practice to Control Interference from Electrostatic Discharge (ESD)Electrical Equipment Protection From Liquid 
+IntrusionSource: Lessons learned ID 65210e7e899abed56392ec8a, title: Electrical Equipment Protection From Liquid IntrusionConformal Coating as Moisture Protection of Electronic Circuitry in Micro GravitySource: Lessons learned ID 65210f69899abed56392ee55, title: Conformal Coating as Moisture Protection of Electronic Circuitry in Micro GravityConductive Polyimide Tape and Nickel Alloy Foils Can Become MagnetizedSource: Lessons learned ID 65211240899abed56392f43f, title: Conductive Polyimide Tape and Nickel Alloy Foils Can Become MagnetizedConfiguration control of electrical conductors during facilities installationsSource: Lessons learned ID 65211125899abed56392f20b, title: Configuration control of electrical conductors during facilities installationsElectrostatic Discharge (ESD) Test PracticesSource: Lessons learned ID 65210fbc899abed56392ef08, title: Electrostatic Discharge (ESD) Test PracticesWorking in the Proximity of 
+Energized Electrical SourcesSource: Lessons learned 
+ID 65210f6a899abed56392ee57, title: Working in the Proximity of Energized Electrical SourcesHigh-voltage Capacitor Used in Voltage Doubler Circuits for Space Applications (~1978)Source: Lessons learned ID 65210fc5899abed56392ef1a, title: High-voltage Capacitor Used in Voltage Doubler Circuits for Space Applications (~1978)Plasma Noise in EMI DesignSource: Lessons learned ID 65210e63899abed56392ec4c, title: Plasma Noise in EMI DesignPenetrant Evaluation of Metallic Tanks and Composite Overwrapped Pressure Vessel LinersSource: Lessons learned ID 6521119f899abed56392f2f1, title: Penetrant Evaluation of Metallic Tanks and Composite Overwrapped Pressure Vessel LinersProtect Against Corona Discharge and High Voltage Breakdown (1960's-Present)Source: Lessons learned ID 65210f92899abed56392eeae, title: Protect Against Corona Discharge and High Voltage Breakdown (1960's-Present)Microchip Susceptibility to Ionizing Radiation Emitted by Environment, Materials Used in Production and Processing of Computer HardwareSource: Lessons learned ID 6521103b899abed56392f013, title: Microchip Susceptibility to Ionizing Radiation Emitted by Environment, Materials Used in Production and Processing of Computer HardwareRadiographic Testing of Aerospace MaterialsSource: Lessons learned ID 65210f93899abed56392eeb0, title: Radiographic Testing of Aerospace MaterialsDimensional stability of dissimilar materials 
+in operational and non-operational environments where excessive or unintentional heating may occurSource: Lessons learned ID 652110ff899abed56392f1bb, title: Dimensional stability of dissimilar materials in operational and non-operational environments where excessive or unintentional heating may occurSolid Propellant in Contact with Porous Material, FireSource: 
+Lessons learned ID 65210eea899abed56392ed66, title: 
+Solid Propellant in Contact with Porous Material, FireCautions Involving Ceramic CapacitorsSource: Lessons learned ID 65211242899abed56392f442, title: Cautions Involving Ceramic CapacitorsSneak Circuitry; Down Range Control Area; Electrical Ground Connections 
+for Folding Fin Aircraft Rockets (FFAR); Corrosion of Dissimilar MetalsSource: Lessons learned ID 65210f1c899abed56392edce, title: Sneak Circuitry; Down Range Control Area; Electrical Ground Connections for Folding Fin Aircraft Rockets (FFAR); Corrosion of Dissimilar MetalsElectrical Ground - U-GroundSource: Lessons learned ID 65210f48899abed56392ee0f, title: Electrical Ground - U-GroundHigh electrical resistance from loose connectorsSource: Lessons learned ID 65210f9f899abed56392eec7, title: High electrical resistance from loose connectorsElectromagnetic Interference Analysis of Circuit TransientsSource: Lessons learned ID 65210fb0899abed56392eeeb, title: Electromagnetic Interference Analysis of Circuit TransientsSpacecraft Single Phase AC Electrical PowerSource: Lessons learned ID 652111cf899abed56392f350, title: Spacecraft Single Phase AC Electrical PowerHigh Voltage Power Supply Design and Manufacturing PracticesSource: Lessons learned ID 65210f61899abed56392ee45, title: High Voltage Power Supply Design and Manufacturing PracticesConducted and Radiated Emissions Design RequirementsSource: Lessons learned ID 65210ea2899abed56392eccd, title: Conducted and Radiated Emissions Design RequirementsDesign, Test, and Inspection of Semi-Rigid RF Cables (1997)Source: Lessons learned ID 
+65210f22899abed56392edd9, title: Design, Test, and Inspection of Semi-Rigid RF Cables (1997)International Space Station (ISS) Program/Microgravity Science Glovebox (MSG)/Solidification Using a Baffled Sample 
+Ampoule (SUBSA) Investigation Eurotherm Controller AnomalySource: Lessons learned ID 652110b7899abed56392f11f, title: International Space Station (ISS) Program/Microgravity Science Glovebox (MSG)/Solidification Using a Baffled Sample Ampoule (SUBSA) Investigation Eurotherm Controller AnomalyMagnetic Fie`; // Replace with the second string for comparison
 const axios = require('axios');
 
 
@@ -8,29 +77,57 @@ const axios = require('axios');
 async function compareAndRecommend(model, string1, string2) {
   try {
     const messages = [
-      { role: 'system', content: 'Compare two strings and provide recommendations for how to improve the first string based on the information given in the second string.' },
+      { role: 'system', content: 'Compare two texts and provide recommendations for how to improve the first text based on the information given in the second text.' },
       { role: 'user', content: string1 },
       { role: 'assistant', content: string2 },
     ];
 
     const response = await openaiChatCompletion(model, messages);
 
-    const answer = combineAndOutput(model, string1, response.choices[0].message.content);
+    // Get answer1 from combineAndOutput
+    const answer1 = await combineAndOutput(model, string1, response.choices[0].message.content);
 
-    return answer;
+    // Get answer2 from checkForProblem
+    const answer2 = await checkForProblem(model, string1, answer1);
+
+    // Ensure that answer1 is a string
+    const answer1String = String(answer1);
+
+    const answer2String = String(answer2);
+
+    // Use the replace() method with a regular expression to replace all occurrences
+    const finalAnswer = answer1String.replace(/\[ISSUE\]/g, answer2String);
+
+    return answer2;
   } catch (error) {
     console.error('An error occurred during the API request:', error);
     throw error; // Rethrow the error for further handling or debugging.
   }
 }
 
-async function combineAndOutput(model, string1, recommendation){
+async function checkForProblem(model, string1, answer1) {
   const messages = [
-    { role: 'system', content: "You are an AI tool that gets string type input and checks if it has old data or issues based on given context that will be fed into you, your task is to find the issue within the given text and suggest a fix based on the given context sources in this format: *[Section number]\n*[Text with issue]\n[Issue]\n*[Suggested fix]\n*[Source]\n*[Priority]. In the [Section number] field of the output put the section number of the string that has the problem. In the [Text with issue] field of the output, you display the string with the problem that you found in the input string by using the given sources. In the [Suggested fix] field of the output, you display a possible fix to the issue based on the given sources. In the [Source] field of the output, you display the source of the context you used to find the solution to the problem from the given context files. In the [Priority] field of the output, you display the priority of the fix, if the fix is related to changes shown in the context file and are possibly dangerous, show high priority. If there is no danger to human life but the issue is in context files, put out medium priority. If the problem doesn't appear in the context files and isn't a threat to human life but the context of the wording is too broad, output a low priority. Show output only after getting all the required information based on the context." },
-    { role: 'user', content: `output information written in the system using ${recommendation} as a recommendation. ${string1} as the string with an issue, fill out the rest yourself.` },
+    { role: 'system', content: 'Find text that matches input' },
+    { role: 'user', content: `Using the parameters defined in ${answer1} find an issue that matches these paramaters in ${string1}. Output what the section discusses.` },
   ];
 
   const response = await openaiChatCompletion(model, messages);
+  console.log(response.choices[0].message.content)
+
+}
+
+
+
+
+async function combineAndOutput(model, string1, recommendation){
+  const messages = [
+    { role: 'system', content: "You are an AI tool that gets string type input and checks if it has old data or issues based on given context that will be fed into you, your task is to find the issue within the given text and suggest a fix based on the given context sources in this format: issue_P_ [ISSUE]; fix_P_ [FIX]; source_P_ [SRC]; priority_P_ [PR]; problem - [PRB]..  In the [ISSUE] field of the output, you display the string with the problem that you found in the input string by using the given sources. In the [FIX] field of the output, you display a possible fix to the issue based on the given sources. In the [SRC] field of the output, you display the source of the context you used to find the solution to the problem from the given context files. In the [PR] field of the output, you display the priority of the fix, if the fix is related to changes shown in the context file and are possibly dangerous to humans or could be of high importance show high priority, If there is no danger to human life but the issue is in context files, put out  priority_P_ MEDIUM priority, If the problem doesn't appear in the context files and isn't a threat to human life but the context of the wording is too broad, output a low priority. Show output only after getting all the required information based on the context. In the [ISSUE] field of the output, you output the problem that's defined using the information about the issue and the fix." },
+    { role: 'user', content: `Output information using ${recommendation} as a recommendation and ${string1} for other information. Fill out the rest yourself basing your opinion on the two given inputs.` },
+  ];
+
+  const response = await openaiChatCompletion(model, messages);
+
+  console.log(response.choices[0].message.content)
 
   return response.choices[0].message.content;
 }
