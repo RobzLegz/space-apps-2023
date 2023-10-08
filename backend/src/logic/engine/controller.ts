@@ -23,11 +23,14 @@ const processParagraphs = async (
   const issues: Issue[] = [];
 
   for (let i = 0; i < paragraphs.length; i++) {
-    if (!(i > 18 && i < 21)) {
+    if (i !== 21) {
       continue;
     }
 
     const paragraph = paragraphs[i];
+    console.log(paragraph);
+
+
     const embed = await generateEmbedding(paragraph);
     const query = await searchVector(embed);
     let context = "";
@@ -144,55 +147,57 @@ export const engineCtrl = {
           .split(/\r?\n\r?\n/)
           .filter((p) => p.replaceAll(" ", "").length);
 
-        interface Issue {
-          issue: string;
-          fix: string;
-          source: string;
-          priority: string;
-          problem: string;
-        }
+        // interface Issue {
+        //   issue: string;
+        //   fix: string;
+        //   source: string;
+        //   priority: string;
+        //   problem: string;
+        // }
 
-        var issues: Issue[] = [];
+        // var issues: Issue[] = [];
 
-        paragraphs.forEach(async (paragraph, i) => {
-          if (i > 10) {
-            return;
-          }
-          const embed = await generateEmbedding(paragraph);
-          const query = await searchVector(embed);
-          var context = "";
-          query.forEach((entry) => {
-            context =
-              context +
-              (entry.metadata ? entry.metadata.text : "") +
-              "Source: " +
-              (entry.metadata ? entry.metadata.source : "");
-          });
+        // paragraphs.forEach(async (paragraph, i) => {
+        //   if (i > 10) {
+        //     return;
+        //   }
+        //   const embed = await generateEmbedding(paragraph);
+        //   const query = await searchVector(embed);
+        //   var context = "";
+        //   query.forEach((entry) => {
+        //     context =
+        //       context +
+        //       (entry.metadata ? entry.metadata.text : "") +
+        //       "Source: " +
+        //       (entry.metadata ? entry.metadata.source : "");
+        //   });
 
-          const recommendations: string = await compareAndRecommend(
-            GPT_MODEL,
-            paragraph,
-            context
-          );
+        //   const recommendations: string = await compareAndRecommend(
+        //     GPT_MODEL,
+        //     paragraph,
+        //     context
+        //   );
 
-          const sections = recommendations.split("_P_");
+        //   const sections = recommendations.split("_P_");
 
-          // Create a JSON object from the split sections
-          const jsonObject: Issue = {
-            issue: sections[0].trim(),
-            fix: sections[1].trim(),
-            source: sections[2].trim(),
-            priority: sections[3].trim(),
-            problem: sections[4].trim(),
-          };
+        //   // Create a JSON object from the split sections
+        //   const jsonObject: Issue = {
+        //     issue: sections[0].trim(),
+        //     fix: sections[1].trim(),
+        //     source: sections[2].trim(),
+        //     priority: sections[3].trim(),
+        //     problem: sections[4].trim(),
+        //   };
 
-          issues = [...issues, jsonObject];
-        });
+        //   issues = [...issues, jsonObject];
+        // });
+
+        const prikol = await processParagraphs(paragraphs, fileName)
 
         return res.json({
           fileName: fileName,
           text: pdfText.text,
-          issues,
+          issues: prikol.issues,
         });
       });
     } catch (err: any) {

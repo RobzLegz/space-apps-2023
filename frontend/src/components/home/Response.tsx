@@ -97,22 +97,24 @@ export const TextBlock: React.FC<{
         {txt.split(issue.issue)[0]}
         <span
           className={`${
-            issue.priority === "high" ? "bg-primary-600" : "bg-primary-500"
-          } px-2 text-white rounded-full relative cursor-pointer`}
+            issue.priority === "High." ? "bg-primary-600" : "bg-primary-500"
+          } px-2 text-white rounded-full relative cursor-pointer group`}
           onClick={() => setIssueActive(!issueActive)}
         >
           {issue.issue}
 
           {issueActive && (
-            <div className="absolute -bottom-10 left-0 bg-primary-900 rounded-lg border-2 border-primary-700 p-4 min-w-[500px] max-w-[800px] shadow-2xl flex flex-col">
+            <div
+              className={`absolute  left-[50%] -translate-x-[50%] bottom-20 bg-primary-900 rounded-lg border-2 border-primary-700 p-4 min-w-[500px] max-w-[800px] shadow-2xl flex flex-col`}
+            >
               <strong
                 className={`${
-                  issue.priority === "high"
+                  issue.priority === "High."
                     ? "text-primary-600"
                     : "text-primary-500"
                 } text-lg mb-2`}
               >
-                {issue.priority === "high" ? "Critical!" : "Warning"}
+                {issue.priority === "High." ? "Critical!" : "Warning"}
               </strong>
 
               <small className="text-primary-600 mt-2">
