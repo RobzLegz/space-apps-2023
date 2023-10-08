@@ -18,8 +18,6 @@ const searchVector = async (embedding: number[]) => {
       throw new Error("empty db");
     }
 
-    console.log(query.matches[10]);
-
     return query.matches;
   } catch (err: any) {
     throw new Error(err.message);

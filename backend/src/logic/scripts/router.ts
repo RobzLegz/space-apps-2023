@@ -9,3 +9,4 @@ scriptRouter.route("/write_std").post(scriptCtrl.writeSTD);
 scriptRouter.route("/generateLLEmbeddings").get(scriptCtrl.generateLLEmbeddings);
 scriptRouter.route("/searchVector").get(scriptCtrl.searchVector);
 scriptRouter.route("/transferDb").get(scriptCtrl.transferDb);
+scriptRouter.route("/addSource").get(scriptCtrl.addSource);
