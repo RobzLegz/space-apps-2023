@@ -1,23 +1,35 @@
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
+import TerminalContainer from "../TerminalContainer";
+import Response from "./Response";
+import PBContainer from "../progressBar/PBContainer";
+import { uploadDocument } from "@/requests/uploadDocument";
 
 const HomeContainer = () => {
   const [dragActive, setDragActive] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState<{
+    text?: string;
+    fileName?: string;
+    issues?: {
+      issue: string;
+      fix: string;
+      source: string;
+      priority: string;
+      problem: string;
+    }[];
+  } | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const selectFile = (incFiles: FileList) => {
     let accFiles: File[] = [];
 
     for (const file of incFiles) {
-      accFiles = [...accFiles, file];
-    }
-    if (setFiles) {
-      if (files) {
-        setFiles([...files, ...accFiles]);
-      } else {
-        setFiles([...accFiles]);
+      if (file.type === "application/pdf") {
+        accFiles = [...accFiles, file];
       }
     }
+    setFile(accFiles[0]);
   };
 
   const handleDrag = function (e: React.DragEvent) {
@@ -47,18 +59,36 @@ const HomeContainer = () => {
     }
   };
 
-  return (
-    <div className="w-full max-w-[900px] flex flex-col my-10 p-4 rounded-lg bg-primary-800 border border-primary-700">
-      <h1 className="text-accent text-lg mb-3 font-semibold">
-        S.T.A.R. Terminal
-      </h1>
+  const handleSubmit = async () => {
+    if (!file) {
+      return;
+    }
 
+    setLoading(true);
+
+    const data = await uploadDocument({ file });
+
+    setResponse(data);
+
+    setLoading(false);
+  };
+
+  if (response) {
+    return <Response {...response} />;
+  }
+
+  if (loading) {
+    return <PBContainer />;
+  }
+
+  return (
+    <TerminalContainer>
       <input
         type="file"
         name="file"
         id="file"
         hidden
-        multiple
+        accept="application/pdf"
         onChange={handleFileSelect}
       />
 
@@ -77,26 +107,23 @@ const HomeContainer = () => {
       >
         <ArrowUpTrayIcon className="h-10 mb-6" />
 
-        <strong>Drag and drop your documents</strong>
+        <strong>Drag and drop your .pdf document</strong>
 
         <small className="text-gray-400 mt-2">Or click to upload</small>
       </label>
 
-      {files.length > 0 && (
-        <div className="flex flex-col items-start justify-start mt-4 overflow-x-auto w-full whitespace-nowrap pb-2">
+      {file && (
+        <div className="flex flex-col items-start justify-start mt-4 overflow-x-auto w-full whitespace-nowrap">
           <p className="text-gray-400">Documents to validate:</p>
 
           <div className="flex w-full items-center justify-start gap-3 mt-1">
             <div className="flex text-accent gap-3 ">
-              {files.map((file, i) => (
-                <p
-                  key={i}
-                  className="hover:line-through cursor-pointer"
-                  onClick={() => setFiles(files.filter((f, j) => j !== i))}
-                >
-                  {file.name}
-                </p>
-              ))}
+              <p
+                className="hover:line-through cursor-pointer"
+                onClick={() => setFile(null)}
+              >
+                {file.name}
+              </p>
             </div>
           </div>
         </div>
@@ -105,17 +132,21 @@ const HomeContainer = () => {
       <textarea
         name="terminal"
         id="terminal"
-        className="w-full h-full mt-2 bg-primary-900 p-4 min-h-[90px] rounded-lg border border-primary-700"
+        className="w-full h-full mt-4 bg-primary-900 p-4 min-h-[90px] rounded-lg border border-primary-700"
         placeholder="Add context if needed..."
         rows={2}
       />
 
       <div className="w-full mt-4 flex">
-        <button className="bg-accent rounded-md px-12 py-2 text-primary-900 border-accent-100 hover:bg-accent-100 duration-200 transition-colors">
+        <button
+          className="bg-accent rounded-md px-12 py-2 text-primary-900 border-accent-100 active:hover:bg-accent-100 duration-200 transition-colors disabled:opacity-70"
+          onClick={handleSubmit}
+          disabled={!file || loading}
+        >
           Submit
         </button>
       </div>
-    </div>
+    </TerminalContainer>
   );
 };
 
