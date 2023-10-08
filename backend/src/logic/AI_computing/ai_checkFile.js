@@ -1,5 +1,7 @@
-const GPT_MODEL = 'ft:gpt-3.5-turbo-0613:personal::87BBpzgT'; // Replace with your fine-tuned model ID
-const inputString1 = `NASA-HDBK-4007 W/CHANGE 1 
+const GPT_MODEL = 'ft:gpt-3.5-turbo-0613:personal::87BBpzgT';
+const GPT_MODEL_D = "gpt-3.5-turbo-0613";
+// Replace with your fine-tuned model ID
+const inputString69 = `NASA-HDBK-4007 W/CHANGE 1 
 APPROVED FOR PUBLIC RELEASE—DISTRIBUTION IS UNLIMITED
 
 Page 19 of 147
@@ -54,6 +56,70 @@ temperature effects.
 Seta, plural: setae – very small, stiff hair like structures that can form on the surfaces of
 materials. If the surface is electrically charged, a seta results in very high electric field
 concentration, sometimes leading to electrical breakdown.`; // Replace with the first string you want to compare
+const inputString1 = `NASA-HDBK-4007 W/CHANGE 1 
+
+
+APPROVED FOR PUBLIC RELEASE—DISTRIBUTION IS UNLIMITED
+
+Page 22 of 147
+
+e. “Insulation systems” may consist of one or more materials or classes of materials
+used to electrically isolate two or more conducting 
+surfaces.
+
+f. “Partial discharge” is an electrical discharge that does not bridge the electrodes, such
+as internal discharges in the cavities within the solid dielectric, surface discharges along the        
+surface of insulator, and corona discharges around a sharp edge (usually around the electrode
+surface). Usually, the magnitude of such discharges 
+is small; however, they may cause
+progressive deterioration of the insulation and lead to ultimate failure.
+
+g. “Pure air”: The composition of air is variable with respect to several of its
+components (e.g. CH
+4
+, CO
+2
+, H
+2
+O) so 'pure' air has no precise meaning. The composition of the
+major components in dry air is relatively constant (percent by volume given): nitrogen, 78.084;
+oxygen, 20.946; argon, 0.934; carbon dioxide, 0.033; neon, 0.0018; helium, 0.000524; methane,
+0.00016; krypton, 0.000114; hydrogen 0.00005; nitrous oxide, 0.00003; xenon, 0.0000087. The
+concentrations of carbon dioxide, methane, nitrous oxide, the chlorofluorocarbons and some
+other species of anthropogenic origin are increasing measurably with time. For purposes of this
+document, “pure air” is assumed to consist of such a mixture that is free of any contaminant that       
+could possibly alter its electrical or dielectric behavior.
+
+For early spacecraft missions, techniques were developed for the detection of partial discharges        
+in spacecraft electronic equipment. Use of these techniques clearly showed that the reduction of        
+partial discharges enhanced equipment life, and thereafter testing incorporating such techniques        
+made mandatory to eliminate faulty insulation and flawed workmanship. Some examples of
+representative instrumentation and test techniques, 
+both of which have matured and improved
+over time, are described later in this NASA Technical Handbook.
+
+In the modern spacecraft electronics industry, dense packaging is required to make the
+equipment fit within a restricted volume. Likewise, 
+weight is restricted to economize on fuel and       
+maximize space for the payload. Consequently, high electrical field stresses, which enhance
+partial discharge activity, are often present. Such 
+partial discharge activities can be a contributing  
+factor in insulation degradation.
+
+Continuous partial discharge or corona activities are a serious problem usually associated with
+insulation degradation, electromagnetic interference (EMI), and the upset of poorly protected
+sensitive circuits without proper shielding or noise suppression. Insulated conductors may be
+highly susceptible to continuous corona or partial discharges when operated at very low pressure        
+gaseous environments, because the corona, or breakdown initiation voltage, is a function of both        
+the density and content of the gaseous environment. 
+For example, helium has a much lower
+breakdown voltage at low pressures than air or nitrogen. The insulated and non-insulated
+conductors, terminations, and other electrical/electronic parts may be susceptible to this
+phenomenon in the high field stresses caused by the 
+dense population of parts within the system
+design. Some insulation systems, however, can endure partial discharge or corona activities for
+microseconds to milliseconds, for thousands of repetitive occurrences, as experienced with pulse        
+power applications.`
 const inputString2 = `Thick Dielectric Charging/Internal Electrostatic Discharge (IESD)Source: Lessons learned ID 65210f10899abed56392edb6, title: Thick Dielectric Charging/Internal Electrostatic Discharge (IESD)Permeability, Swelling and Solvent-Stress-Cracking Polymeric and Elastomeric Materials (1977)Source: Lessons learned ID 65210fd8899abed56392ef42, title: Permeability, Swelling and Solvent-Stress-Cracking Polymeric and Elastomeric Materials (1977)Surface Charging/Electrostatic Discharge AnalysisSource: Lessons learned ID 65210f78899abed56392ee75, title: Surface Charging/Electrostatic Discharge AnalysisHigh Voltage Electric CircuitsSource: Lessons learned ID 65210f5d899abed56392ee3c, title: High Voltage Electric CircuitsHigh Voltage Electric CircuitsSource: Lessons learned ID 65210fba899abed56392ef04, title: High Voltage Electric CircuitsPenetrant Testing of Aerospace MaterialsSource: Lessons learned ID 65211016899abed56392efc3, title: Penetrant Testing of Aerospace MaterialsHigh Electrical CurrentSource: Lessons learned ID 65210f5f899abed56392ee40, title: High Electrical CurrentAssessment and Control of Electrical ChargesSource: Lessons learned ID 65210f74899abed56392ee6d, title: Assessment and Control of Electrical ChargesEddy Current Testing of Aerospace MaterialsSource: Lessons learned ID 65211046899abed56392f02a, title: Eddy Current Testing 
 of Aerospace MaterialsSolid Propellant, Electro-Static Discharge IgnitionSource: Lessons learned ID 65210fea899abed56392ef66, title: Solid Propellant, Electro-Static Discharge IgnitionElectrical Shielding of 
 Power, Signal and Control CablesSource: Lessons learned ID 65210fe5899abed56392ef5d, title: Electrical Shielding of Power, Signal and Control CablesIncreasing ESD Susceptibility of Integrated Circuits (2002)Source: Lessons learned ID 65211071899abed56392f086, 
@@ -98,7 +164,10 @@ async function compareAndRecommend(model, string1, string2) {
     // Use the replace() method with a regular expression to replace all occurrences
     const finalAnswer = answer1String.replace(/\[ISSUE\]/g, answer2String);
 
-    return answer2;
+
+    console.log(finalAnswer)
+    return finalAnswer;
+    
   } catch (error) {
     console.error('An error occurred during the API request:', error);
     throw error; // Rethrow the error for further handling or debugging.
@@ -107,12 +176,31 @@ async function compareAndRecommend(model, string1, string2) {
 
 async function checkForProblem(model, string1, answer1) {
   const messages = [
-    { role: 'system', content: 'Find text that matches input' },
-    { role: 'user', content: `Using the parameters defined in ${answer1} find an issue that matches these paramaters in ${string1}. Output what the section discusses.` },
+    { role: 'system', content: `Find the part of text that contains errors and output it as a string."` },
+    { role: 'user', content: `Using data in the "${answer1}" string, find a sentence that matches the issue in original_text: "${string1}". Output the sentence or part of text. ` },
   ];
 
-  const response = await openaiChatCompletion(model, messages);
-  console.log(response.choices[0].message.content)
+  const response = await openaiChatCompletion(GPT_MODEL_D, messages);
+  // console.log(response.choices[0].message.content)
+
+  const teikums = response.choices[0].message.content
+
+  const regex = /"(.*?)"/g;
+
+// Extract text inside double apostrophes
+const matches = teikums.match(regex);
+
+var extractedText = "";
+
+// Print the extracted text
+if (matches) {
+  for (const match of matches) {
+    // Remove the double apostrophes from the extracted text
+    extractedText = match.slice(1, -1);
+    // console.log(extractedText);
+  }
+}
+  return extractedText;
 
 }
 
@@ -121,13 +209,13 @@ async function checkForProblem(model, string1, answer1) {
 
 async function combineAndOutput(model, string1, recommendation){
   const messages = [
-    { role: 'system', content: "You are an AI tool that gets string type input and checks if it has old data or issues based on given context that will be fed into you, your task is to find the issue within the given text and suggest a fix based on the given context sources in this format: issue_P_ [ISSUE]; fix_P_ [FIX]; source_P_ [SRC]; priority_P_ [PR]; problem - [PRB]..  In the [ISSUE] field of the output, you display the string with the problem that you found in the input string by using the given sources. In the [FIX] field of the output, you display a possible fix to the issue based on the given sources. In the [SRC] field of the output, you display the source of the context you used to find the solution to the problem from the given context files. In the [PR] field of the output, you display the priority of the fix, if the fix is related to changes shown in the context file and are possibly dangerous to humans or could be of high importance show high priority, If there is no danger to human life but the issue is in context files, put out  priority_P_ MEDIUM priority, If the problem doesn't appear in the context files and isn't a threat to human life but the context of the wording is too broad, output a low priority. Show output only after getting all the required information based on the context. In the [ISSUE] field of the output, you output the problem that's defined using the information about the issue and the fix." },
-    { role: 'user', content: `Output information using ${recommendation} as a recommendation and ${string1} for other information. Fill out the rest yourself basing your opinion on the two given inputs.` },
+    { role: 'system', content: "You are an AI tool that gets string type input and checks if it has old data or issues based on given context that will be fed into you, your task is to find the issue within the given text and suggest a fix based on the given context sources in this format: issue_P_ [ISSUE]; fix_P_ [FIX]; source_P_ [SRC]; priority_P_ [PR]; problem_P_ [PRB]..  In the [ISSUE] field of the output, you display the string with the problem that you found in the input string by using the given sources. In the [FIX] field of the output, you display a possible fix to the issue based on the given sources. In the [SRC] field of the output, you display the source of the context you used to find the solution to the problem from the given context files. In the [PR] field of the output, you display the priority of the fix, if the fix is related to changes shown in the context file and are possibly dangerous to humans or could be of high importance show high priority, If there is no danger to human life but the issue is in context files, put out  priority_P_ MEDIUM priority, If the problem doesn't appear in the context files and isn't a threat to human life but the context of the wording is too broad, output a low priority. Show output only after getting all the required information based on the context. In the [ISSUE] field of the output, you output the problem that's defined using the information about the issue and the fix." },
+    { role: 'user', content: `Output information using "${recommendation}" as a recommendation and "${string1}" for other information. Fill out the rest yourself basing your opinion on the two given inputs.` },
   ];
 
   const response = await openaiChatCompletion(model, messages);
 
-  console.log(response.choices[0].message.content)
+  // console.log(response.choices[0].message.content)
 
   return response.choices[0].message.content;
 }
@@ -151,7 +239,7 @@ async function openaiChatCompletion(model, messages) {
 // Example usage
 async function main() {
   const recommendations = await compareAndRecommend(GPT_MODEL, inputString1, inputString2);
-  console.log(recommendations);
+  // console.log(recommendations);
 }
 
 main(); // Call the async function
