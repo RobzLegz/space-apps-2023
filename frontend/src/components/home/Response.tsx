@@ -105,7 +105,7 @@ export const TextBlock: React.FC<{
 
           {issueActive && (
             <div
-              className={`absolute  left-[50%] -translate-x-[50%] bottom-20 bg-primary-900 rounded-lg border-2 border-primary-700 p-4 min-w-[500px] max-w-[800px] shadow-2xl flex flex-col`}
+              className={`absolute left-[50%] -translate-x-[50%] bottom-20 bg-primary-900 rounded-lg border-2 border-primary-700 p-4 min-w-[500px] max-w-[800px] shadow-2xl flex flex-col`}
             >
               <strong
                 className={`${
