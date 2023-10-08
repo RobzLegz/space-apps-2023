@@ -6,7 +6,8 @@ import { compareAndRecommend } from "../AI_computing/ai_checkFile";
 import generateEmbedding from "../../utils/generateEmbedding";
 import searchVector from "../../utils/searchVector";
 
-const GPT_MODEL = "ft:gpt-3.5-turbo-0613:personal::878Vr0pe";
+const GPT_MODEL = "ft:gpt-3.5-turbo-0613:personal::87BBpzgT";
+const GPT_MODEL_D = "gpt-3.5-turbo-0613";
 
 interface Issue {
   issue: string;
@@ -23,13 +24,12 @@ const processParagraphs = async (
   const issues: Issue[] = [];
 
   for (let i = 0; i < paragraphs.length; i++) {
-    if (i !== 21) {
+    if (i < 10 || i > 15) {
       continue;
     }
 
     const paragraph = paragraphs[i];
-    console.log(paragraph);
-
+    // console.log(paragraph);
 
     const embed = await generateEmbedding(paragraph);
     const query = await searchVector(embed);
@@ -73,7 +73,7 @@ const processParagraphs = async (
       paragraph: string
     ): Issue {
       const jsonObject: Issue = {
-        issue: paragraph,
+        issue: "",
         fix: "",
         source: "",
         priority: "",
@@ -147,52 +147,7 @@ export const engineCtrl = {
           .split(/\r?\n\r?\n/)
           .filter((p) => p.replaceAll(" ", "").length);
 
-        // interface Issue {
-        //   issue: string;
-        //   fix: string;
-        //   source: string;
-        //   priority: string;
-        //   problem: string;
-        // }
-
-        // var issues: Issue[] = [];
-
-        // paragraphs.forEach(async (paragraph, i) => {
-        //   if (i > 10) {
-        //     return;
-        //   }
-        //   const embed = await generateEmbedding(paragraph);
-        //   const query = await searchVector(embed);
-        //   var context = "";
-        //   query.forEach((entry) => {
-        //     context =
-        //       context +
-        //       (entry.metadata ? entry.metadata.text : "") +
-        //       "Source: " +
-        //       (entry.metadata ? entry.metadata.source : "");
-        //   });
-
-        //   const recommendations: string = await compareAndRecommend(
-        //     GPT_MODEL,
-        //     paragraph,
-        //     context
-        //   );
-
-        //   const sections = recommendations.split("_P_");
-
-        //   // Create a JSON object from the split sections
-        //   const jsonObject: Issue = {
-        //     issue: sections[0].trim(),
-        //     fix: sections[1].trim(),
-        //     source: sections[2].trim(),
-        //     priority: sections[3].trim(),
-        //     problem: sections[4].trim(),
-        //   };
-
-        //   issues = [...issues, jsonObject];
-        // });
-
-        const prikol = await processParagraphs(paragraphs, fileName)
+        const prikol = await processParagraphs(paragraphs, fileName);
 
         return res.json({
           fileName: fileName,
