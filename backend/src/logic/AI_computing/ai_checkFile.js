@@ -61,65 +61,109 @@ const inputString1 = `NASA-HDBK-4007 W/CHANGE 1
 
 APPROVED FOR PUBLIC RELEASE—DISTRIBUTION IS UNLIMITED
 
-Page 22 of 147
+Page 12 of 147
+SPACECRAFT HIGH-VOLTAGE PASCHEN
+AND CORONA DESIGN HANDBOOK
 
-e. “Insulation systems” may consist of one or more materials or classes of materials
-used to electrically isolate two or more conducting 
-surfaces.
+ SCOPE
 
-f. “Partial discharge” is an electrical discharge that does not bridge the electrodes, such
-as internal discharges in the cavities within the solid dielectric, surface discharges along the        
-surface of insulator, and corona discharges around a sharp edge (usually around the electrode
-surface). Usually, the magnitude of such discharges 
-is small; however, they may cause
-progressive deterioration of the insulation and lead to ultimate failure.
+This NASA Technical Handbook presents an overview of the current understanding of the
+electrical design techniques that can mitigate deleterious effects (such as Paschen and corona
+discharges) resulting from operation of a high-voltage system in space, references common
+design practices that have been successful in mitigating these effects in the past, and
+recommends standard practices to eliminate or mitigate such effects in the future.
 
-g. “Pure air”: The composition of air is variable with respect to several of its
-components (e.g. CH
-4
-, CO
-2
-, H
-2
-O) so 'pure' air has no precise meaning. The composition of the
-major components in dry air is relatively constant (percent by volume given): nitrogen, 78.084;
-oxygen, 20.946; argon, 0.934; carbon dioxide, 0.033; neon, 0.0018; helium, 0.000524; methane,
-0.00016; krypton, 0.000114; hydrogen 0.00005; nitrous oxide, 0.00003; xenon, 0.0000087. The
-concentrations of carbon dioxide, methane, nitrous oxide, the chlorofluorocarbons and some
-other species of anthropogenic origin are increasing measurably with time. For purposes of this
-document, “pure air” is assumed to consist of such a mixture that is free of any contaminant that       
-could possibly alter its electrical or dielectric behavior.
+ Purpose
 
-For early spacecraft missions, techniques were developed for the detection of partial discharges        
-in spacecraft electronic equipment. Use of these techniques clearly showed that the reduction of        
-partial discharges enhanced equipment life, and thereafter testing incorporating such techniques        
-made mandatory to eliminate faulty insulation and flawed workmanship. Some examples of
-representative instrumentation and test techniques, 
-both of which have matured and improved
-over time, are described later in this NASA Technical Handbook.
+The purpose of this NASA Technical Handbook is to present an overview of high-voltage
+electrical/electronic design techniques required to 
+specify and apply electrical insulation to
+spacecraft high-voltage parts, components, and systems. Of particular interest are spacecraft
+system designs that are needed to meet stringent fault-free operation for a period of days to years     
+in space without maintenance. The first objective is to develop an understanding of electrical
+insulation characteristics and the influence of aging. A second objective is to capture decades of      
+lessons learned and present recommended design, analysis, and test methodologies that have
+been applied to the many successful space vehicle electronic programs during their development,
+manufacture, final assembly, test, and flight.      
 
-In the modern spacecraft electronics industry, dense packaging is required to make the
-equipment fit within a restricted volume. Likewise, 
-weight is restricted to economize on fuel and       
-maximize space for the payload. Consequently, high electrical field stresses, which enhance
-partial discharge activity, are often present. Such 
-partial discharge activities can be a contributing  
-factor in insulation degradation.
+ Applicability
 
-Continuous partial discharge or corona activities are a serious problem usually associated with
-insulation degradation, electromagnetic interference (EMI), and the upset of poorly protected
-sensitive circuits without proper shielding or noise suppression. Insulated conductors may be
-highly susceptible to continuous corona or partial discharges when operated at very low pressure        
-gaseous environments, because the corona, or breakdown initiation voltage, is a function of both        
-the density and content of the gaseous environment. 
-For example, helium has a much lower
-breakdown voltage at low pressures than air or nitrogen. The insulated and non-insulated
-conductors, terminations, and other electrical/electronic parts may be susceptible to this
-phenomenon in the high field stresses caused by the 
-dense population of parts within the system
-design. Some insulation systems, however, can endure partial discharge or corona activities for
-microseconds to milliseconds, for thousands of repetitive occurrences, as experienced with pulse        
-power applications.`
+This NASA Technical Handbook is applicable to all high-voltage power systems that operate in
+space. It is not intended to replace the following low Earth orbit or geosynchronous Earth orbit        
+spacecraft charging standards or handbooks: NASA-STD-4005, Low Earth Orbit Spacecraft
+Charging Design Standard; NASA-HDBK-4006, Low Earth 
+Orbit Spacecraft Charging Design
+Handbook; ISO-11221, Space Systems–Space Solar Panels–Spacecraft Charging Induced
+Electrostatic Discharge Test Methods; and NASA HDBK 
+4002A, Mitigating In-Space Charging
+Effects—A Guideline. Rather, this NASA Technical Handbook is to complement them to
+provide for better interior spacecraft high-voltage 
+designs that would prevent Paschen and/or
+corona discharges, not to deal with plasma interactions that are the purview of other documents.        
+
+This NASA Technical Handbook is approved for use by 
+NASA Headquarters and NASA
+Centers, including Component Facilities and Technical and Service Support Centers. It may also
+apply to the Jet Propulsion Laboratory or to other contractors, grant recipients, or parties to
+agreements only to the extent specified or referenced in their contracts, grants, or agreements.        
+
+This NASA Technical Handbook, or portions thereof, may be referenced in contract, program,
+and other Agency documents for guidance. When it contains procedural or process requirements,
+they may be cited in contract, program, and other Agency documents.
+
+NASA-HDBK-4007 W/CHANGE 1
+
+
+APPROVED FOR PUBLIC RELEASE—DISTRIBUTION IS UNLIMITED
+
+Page 13 of 147
+ APPLICABLE DOCUMENTS
+
+ General
+
+The documents listed in this section are applicable 
+to the guidance in this NASA Technical
+Handbook.
+
+2.1.1 The latest issuances of cited documents shall 
+apply unless specific versions are
+designated.
+
+2.1.2 Non-use of specific versions as designated shall be approved by the responsible
+Technical Authority.
+
+The applicable documents are accessible at https://standards.nasa.gov or may be obtained
+directly from the Standards Developing Body or other document distributors.
+
+ Government Documents
+
+ Department of Defense
+
+AFWAL-TR-88-4143 Design Guide: Designing and Building High Voltage
+Power Supplies, Materials Laboratory, Volumes I and 
+II
+
+ NASA
+
+NASA-HDBK-4006 Low Earth Orbit Spacecraft Charging Design Handbook
+
+NASA-STD-4005 Low Earth Orbit Spacecraft Charging Design Standard
+
+NASA-HDBK-4002A
+Mitigating In-Space Charging Effects—A Guideline    
+
+ Non-Government Documents
+
+ ASTM International
+
+ASTM D257 Standard Test Methods for DC Resistance or Conductance
+of Insulating Materials
+
+ Order of Precedence
+
+This NASA Technical Handbook provides guidance for high-voltage electrical/electronic design
+techniques but does not supersede nor waive established Agency requirements/guidance found in
+other documentation.`
 const inputString2 = `Thick Dielectric Charging/Internal Electrostatic Discharge (IESD)Source: Lessons learned ID 65210f10899abed56392edb6, title: Thick Dielectric Charging/Internal Electrostatic Discharge (IESD)Permeability, Swelling and Solvent-Stress-Cracking Polymeric and Elastomeric Materials (1977)Source: Lessons learned ID 65210fd8899abed56392ef42, title: Permeability, Swelling and Solvent-Stress-Cracking Polymeric and Elastomeric Materials (1977)Surface Charging/Electrostatic Discharge AnalysisSource: Lessons learned ID 65210f78899abed56392ee75, title: Surface Charging/Electrostatic Discharge AnalysisHigh Voltage Electric CircuitsSource: Lessons learned ID 65210f5d899abed56392ee3c, title: High Voltage Electric CircuitsHigh Voltage Electric CircuitsSource: Lessons learned ID 65210fba899abed56392ef04, title: High Voltage Electric CircuitsPenetrant Testing of Aerospace MaterialsSource: Lessons learned ID 65211016899abed56392efc3, title: Penetrant Testing of Aerospace MaterialsHigh Electrical CurrentSource: Lessons learned ID 65210f5f899abed56392ee40, title: High Electrical CurrentAssessment and Control of Electrical ChargesSource: Lessons learned ID 65210f74899abed56392ee6d, title: Assessment and Control of Electrical ChargesEddy Current Testing of Aerospace MaterialsSource: Lessons learned ID 65211046899abed56392f02a, title: Eddy Current Testing 
 of Aerospace MaterialsSolid Propellant, Electro-Static Discharge IgnitionSource: Lessons learned ID 65210fea899abed56392ef66, title: Solid Propellant, Electro-Static Discharge IgnitionElectrical Shielding of 
 Power, Signal and Control CablesSource: Lessons learned ID 65210fe5899abed56392ef5d, title: Electrical Shielding of Power, Signal and Control CablesIncreasing ESD Susceptibility of Integrated Circuits (2002)Source: Lessons learned ID 65211071899abed56392f086, 
@@ -148,7 +192,7 @@ async function compareAndRecommend(model, string1, string2) {
       { role: 'assistant', content: string2 },
     ];
 
-    const response = await openaiChatCompletion(model, messages);
+    const response = await openaiChatCompletion(GPT_MODEL_D, messages);
 
     // Get answer1 from combineAndOutput
     const answer1 = await combineAndOutput(model, string1, response.choices[0].message.content);
@@ -176,12 +220,12 @@ async function compareAndRecommend(model, string1, string2) {
 
 async function checkForProblem(model, string1, answer1) {
   const messages = [
-    { role: 'system', content: `Find the part of text that contains errors and output it as a string."` },
-    { role: 'user', content: `Using data in the "${answer1}" string, find a sentence that matches the issue in original_text: "${string1}". Output the sentence or part of text. ` },
+    { role: 'system', content: "" },
+    { role: 'user', content: `Use the provided fixes from the text "${answer1}" to find text that can be improved by this fix in "${string1}". Output one example.`},
   ];
 
   const response = await openaiChatCompletion(GPT_MODEL_D, messages);
-  // console.log(response.choices[0].message.content)
+  console.log(response.choices[0].message.content)
 
   const teikums = response.choices[0].message.content
 
@@ -203,8 +247,6 @@ if (matches) {
   return extractedText;
 
 }
-
-
 
 
 async function combineAndOutput(model, string1, recommendation){
