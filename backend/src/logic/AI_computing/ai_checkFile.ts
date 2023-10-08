@@ -148,7 +148,7 @@ export async function compareAndRecommend(model: string, string1: string, string
       { role: 'assistant', content: string2 },
     ];
 
-    const response = await openaiChatCompletion(model, messages);
+    const response = await openaiChatCompletion(GPT_MODEL, messages);
 
     // Get answer1 from combineAndOutput
     const answer1 = await combineAndOutput(model, string1, response.choices[0].message.content);
@@ -176,8 +176,8 @@ export async function compareAndRecommend(model: string, string1: string, string
 
 async function checkForProblem(model: string, string1: string, answer1: string) {
   const messages = [
-    { role: 'system', content: `Find the part of text that contains errors and output it as a string."` },
-    { role: 'user', content: `Using data in the "${answer1}" string, find a sentence that matches the issue in original_text: "${string1}". Output the sentence or part of text. ` },
+    { role: 'system', content: "" },
+    { role: 'user', content: `Use the provided fixes from the text "${answer1}" to find text that can be improved by this fix in "${string1}". Output one example.`},
   ];
 
   const response = await openaiChatCompletion(model, messages);
