@@ -1,5 +1,7 @@
 # Exacto | S.T.A.R. Terminal
 
+![image](https://github.com/RobzLegz/space-apps-2023/assets/62758448/ab130cc0-f36d-45e7-ac2f-4e65a845e622)
+
 ## High-Level Summary
 
 We developed an innovative AI tool to help NASA scientists manage their technical documents. Using webscraping technologies we collect the current available NASA resources like new research, lessons learned and others, then automatically catalogue them into a database. Users can submit a document on our website, it automatically scans the contents, finds relevant information on the topic in our database, then uses a custom machine learning model to suggest improvements like fixing ambiguities, updating outdated info and incorporating new research. This tool would speed up the manual work that goes into keeping these documents up to date and speed up the review process.
