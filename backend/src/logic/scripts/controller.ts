@@ -250,14 +250,25 @@ export const scriptCtrl = {
       };
 
       const newformat = mongodb.map((x) => {
+
+        var text = (x.subject ??
+          "") + x.driving_event + x.lessons_learned + x.recomendations
+
+        const maxLength = 40000
+
+        if (Buffer.byteLength(text, 'utf8') > maxLength) {
+          const encodedText = Buffer.from(text, 'utf8');
+          const truncatedBuffer = Buffer.alloc(maxLength);
+          encodedText.copy(truncatedBuffer, 0, 0, maxLength);
+          text = truncatedBuffer.toString('utf8');
+        }
+
         return {
           id: x.id,
           values: x.embeddings,
           metadata: {
-            text:
-              x.subject ??
-              "" + x.driving_event + x.lessons_learned + x.recomendations,
-            source: `Lessons learned ID ${x.id}, title: ${x.subject}`,
+            text: text,
+            source: `Lessons learned ID ${x.url}, title: ${x.subject}`,
           },
         };
       });
